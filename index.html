@@ -3,6 +3,22 @@
 <head>
 <meta charset="UTF-8">
 <title>GREEN API test</title>
+<style>
+.wrapper {
+    display: flex;
+    gap: 20px;
+    }
+.left {
+    width: 300px;
+}
+.right {
+    flex: 1;
+}
+textarea {
+    width: 300px;
+    height: 600px;
+}
+</style>
 </head>
 <body>
     <div class="wrapper">
@@ -28,12 +44,12 @@
     </div>
 <script>
     function apiUrl() {
-        return 'https://3100.api.green-api.com/waInstance${idInstance.value}';
+        return `https://3100.api.green-api.com/waInstance${idInstance.value}`;
     }
 
     function setStatus(type, text) {
         const el = document.getElementById("status");
-        el.className = "status " + text;
+        el.className = "status " + type;
         el.innerText = text;
     }
 
@@ -61,10 +77,10 @@
     }
 
     function getSettings() {
-        request('${apiUrl()}/getSettings/${apiToken.value}');
+        request(`${apiUrl()}/getSettings/${apiToken.value}`);
     }
     function getStateInstance() {
-        request ('${apiUrl()}/getStateInstance/${apiToken.value}');
+        request (`${apiUrl()}/getStateInstance/${apiToken.value}`);
     }
 
 </script> 
