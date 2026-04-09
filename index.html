@@ -34,6 +34,12 @@ textarea {
                 <button onclick="getSettings()">getSettings</button>
                 <button onclick="getStateInstance()">getStateInstance</button>
             </div>
+            <div class="section">
+                <h2>Отправить сообщение</h2>
+                <input id="phone" placeholder="Телефон 79001231212">
+                <input id="message" placeholder="Текст сообщения">
+                <button onclick = "sendMessage()">sendMessage</button>
+            </div>
         </div>
         <!-- RIGHT -->
         <div class="right">
@@ -82,7 +88,21 @@ textarea {
     function getStateInstance() {
         request (`${apiUrl()}/getStateInstance/${apiToken.value}`);
     }
+    function sendMessage() {
+        const phoneValue = document.getElementById("phone").value;
+        const messageValue = document.getElementById("message").value;
+        
+        const body = {
+            chatId: phoneValue + "@c.us",
+            message: messageValue
+        };
+        request(`${apiUrl()}/sendMessage/${apiToken.value}`, {
+            method: "POST",
+            headers: {"Content-Type": "application/json"},
+            body: JSON.stringify(body)
+        });
+    }
+</script>
 
-</script> 
 </body>
 </html>
