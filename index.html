@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<title>GREEN API test</title>
+</head>
+<body>
+    <div class="wrapper">
+        <!-- LEFT -->
+        <div class="left">
+            <div class="section">
+                <h2>Реквизиты подключения</h2>
+                <input id="idInstance" placeholder="idInstance">
+                <input id="apiToken" placeholder="ApiTokenInstance">
+            </div>
+            <div class="section">
+                <h2>Методы</h2>
+                <button onclick="getSettings()">getSettings</button>
+                <button onclick="getStateInstance()">getStateInstance</button>
+            </div>
+        </div>
+        <!-- RIGHT -->
+        <div class="right">
+            <h2>Ответ:</h2>
+            <textarea id="response" readonly></textarea>
+            <div id="status"></div>
+        </div>  
+    </div>
+<script>
+    function apiUrl() {
+        return 'https://3100.api.green-api.com/waInstance${idInstance.value}';
+    }
+
+    function setStatus(type, text) {
+        const el = document.getElementById("status");
+        el.className = "status " + text;
+        el.innerText = text;
+    }
+
+    async function request(url, options = {}) {
+        const responseField = document.getElementById("response");
+        
+        responseField.value = "";
+        setStatus("loading", "Loading...");
+
+        try {
+            const res = await fetch (url, options);
+            const data = await res.json();
+
+            responseField.value = JSON.stringify(data, null, 2);
+
+            if (res.ok) {
+                setStatus("success", "Успешно");
+            } else {
+                setStatus("error", "Ошибка API");
+            }
+        } catch (e) {
+            responseField.value = e.message;
+            setStatus ("error", "Ошибка сети");
+        }
+    }
+
+    function getSettings() {
+        request('${apiUrl()}/getSettings/${apiToken.value}');
+    }
+    function getStateInstance() {
+        request ('${apiUrl()}/getStateInstance/${apiToken.value}');
+    }
+
+</script> 
+</body>
+</html>
